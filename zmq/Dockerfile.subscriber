@@ -1,0 +1,15 @@
+# Koristite Python kao osnovu, jer je PyZMQ najčešći izbor
+FROM python:3.9-slim
+
+# Kreirajte radni direktorijum
+WORKDIR /app
+
+# Instalirajte PyZMQ
+RUN pip install pyzmq
+
+# Kopirajte vašu ZMQ klijentsku skriptu
+# (Ova skripta mora da postoji pored ovog Dockerfile-a)
+COPY subscriber.py .
+
+# Pokrenite subscribera
+CMD ["python", "subscriber.py"]

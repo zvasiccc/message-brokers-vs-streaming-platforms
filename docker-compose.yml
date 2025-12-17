@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  kafka:
+    image: apache/kafka:latest
+    hostname: kafka-broker # Neka hostname bude ime servisa za lakše povezivanje
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      # --- KLIJENTSKA KONEKCIJA (EKSTERNA) ---
+      # Klijenti na hostu vide ovo, moraju se povezati na localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092
+      # Listeneri koje broker SLUŠA: PLAINTEXT_HOST (eksterni) i CONTROLLER (interni)
+      KAFKA_LISTENERS: PLAINTEXT_HOST://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_HOST
+      
+      # --- KRaft KONFIGURACIJA ---
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      # Quorum Voters: koristi interni port 9093 na hostu 'kafka-broker'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-broker:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      
+      # --- OPŠTE PODEŠAVANJE ---
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk # Cluster ID je nepromenjiv
+    restart: always # Dodato za stabilnost
+    
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
+  mosquitto:
+    image: eclipse-mosquitto:2.0.15
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+    restart: always
