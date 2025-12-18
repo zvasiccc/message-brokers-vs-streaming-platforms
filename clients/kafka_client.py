@@ -5,7 +5,7 @@ import json
 import time
 
 KAFKA_SERVER = 'localhost:9092'
-TOPIC_NAME = 'master_rad_topic'
+TOPIC_NAME = 'master_thesis_topic'
 
 class KafkaBenchmark:
     
@@ -32,7 +32,7 @@ def kafka_subscribe(callback):
     consumer = KafkaConsumer(
         TOPIC_NAME,
         bootstrap_servers=[KAFKA_SERVER],
-        group_id='master_rad_group',
+        group_id='master_thesis_group',
         auto_offset_reset='earliest',
         enable_auto_commit=True,
         value_deserializer=lambda m: m.decode('utf-8')

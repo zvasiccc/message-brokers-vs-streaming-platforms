@@ -3,8 +3,8 @@ from kafka.errors import NoBrokersAvailable
 import json
 import time
 
-KAFKA_SERVER = 'localhost:9092'
-TOPIC_NAME = 'master_rad_topic'
+KAFKA_SERVERS = ['localhost:9092', 'localhost:9093', 'localhost:9094']
+TOPIC_NAME = 'master_thesis_topic'
 MAX_RETRIES = 10 
 RETRY_DELAY = 2 
 
@@ -15,8 +15,8 @@ def create_consumer_earliest():
             print(f"Connecting to kafka {attempt}/{MAX_RETRIES}...")
             consumer = KafkaConsumer(
                 TOPIC_NAME,
-                bootstrap_servers=[KAFKA_SERVER],
-                group_id='master_rad_group',
+                bootstrap_servers=KAFKA_SERVERS,
+                group_id='master_thesis_group',
                 auto_offset_reset='earliest', 
                 enable_auto_commit=True,
                 value_deserializer=lambda m: m.decode('utf-8'),
@@ -44,8 +44,8 @@ def create_consumer_latest():
             print(f"Connecting to kafka {attempt}/{MAX_RETRIES}...")
             consumer = KafkaConsumer(
                 TOPIC_NAME,
-                bootstrap_servers=[KAFKA_SERVER],
-                group_id='master_rad_group',
+                bootstrap_servers=KAFKA_SERVERS,
+                group_id='master_thesis_group',
                 auto_offset_reset='earliest', 
                 enable_auto_commit=True,
                 value_deserializer=lambda m: m.decode('utf-8'),

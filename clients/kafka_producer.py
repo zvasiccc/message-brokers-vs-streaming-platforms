@@ -3,8 +3,8 @@ import json
 import time
 from kafka.errors import NoBrokersAvailable
 
-KAFKA_SERVER = 'localhost:9092'
-TOPIC_NAME = 'master_rad_topic'
+KAFKA_SERVERS = ['localhost:9092', 'localhost:9093', 'localhost:9094']
+TOPIC_NAME = 'master_thesis_topic'
 MESSAGE_COUNT = 10
 MAX_RETRIES = 10
 RETRY_DELAY = 2
@@ -16,15 +16,17 @@ def create_producer():
         try:
             print(f"Connecting to kafka {attempt}/{MAX_RETRIES}...")
             producer = KafkaProducer(
-                bootstrap_servers=[KAFKA_SERVER],
+                bootstrap_servers=KAFKA_SERVERS,
                 value_serializer=lambda v: json.dumps(v).encode('utf-8'),
                 acks='all',
+                retries=5
             )
             print("Connected succesfully")
             return producer
         
         except NoBrokersAvailable:
             if attempt == MAX_RETRIES:
+                print("Max retries reached. Connection failed.")
                 raise
             time.sleep(RETRY_DELAY)
         except Exception as e:
