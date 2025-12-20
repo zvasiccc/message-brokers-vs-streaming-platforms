@@ -2,8 +2,8 @@ from kafka import KafkaConsumer
 import json
 
 consumer = KafkaConsumer(
-    'user-activity',
-    bootstrap_servers='localhost:9092',
+    'orders',
+    bootstrap_servers='localhost:29092',
     auto_offset_reset='earliest',  # replay mogućnost
     group_id='analytics-group',
     value_deserializer=lambda v: json.loads(v.decode('utf-8')),
