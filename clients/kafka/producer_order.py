@@ -14,4 +14,4 @@ while True:
     event = {'event': 'ORDER_CREATED', 'orderId': order_id, 'timestamp': time.time()}
     producer.send('orders', key=str(order_id), value=event)
     print(f"Sent: {event}")
-    time.sleep(4)
+    time.sleep(1)
