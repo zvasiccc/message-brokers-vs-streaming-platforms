@@ -16,18 +16,15 @@ class KafkaBenchmark:
         )
 
     def publish_message(self, message):
-        # Slanje poruke i beleženje vremena slanja
         message['sent_at'] = time.time() 
         future = self.producer.send(TOPIC_NAME, message)
         
-        # Opciono: Flush nakon svake poruke radi tačnijeg merenja
         self.producer.flush()
         return future 
 
     def close(self):
         self.producer.close()
         
-# Funkcija za slušanje (Potrošač)
 def kafka_subscribe(callback):
     consumer = KafkaConsumer(
         TOPIC_NAME,
@@ -42,4 +39,4 @@ def kafka_subscribe(callback):
             data = json.loads(message.value)
             callback("kafka", data)
         except Exception as e:
-            print(f"Greška u obradi Kafka poruke: {e}")
+            print(f"Error: {e}")
