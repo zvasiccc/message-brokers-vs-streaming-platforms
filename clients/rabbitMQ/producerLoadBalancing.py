@@ -6,7 +6,6 @@ connection = pika.BlockingConnection(
 )
 channel = connection.channel()
 
-# Jedan queue za sve zadatke
 channel.queue_declare(queue='orders_queue', durable=True)
 
 for i in range(1, 20):
