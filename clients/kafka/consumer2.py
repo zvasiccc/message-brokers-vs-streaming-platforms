@@ -1,6 +1,5 @@
 from kafka import KafkaConsumer
 import json
-
 consumer = KafkaConsumer(
     'orders',
     bootstrap_servers='localhost:29092',

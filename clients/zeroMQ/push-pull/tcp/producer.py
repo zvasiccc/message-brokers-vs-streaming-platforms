@@ -11,4 +11,4 @@ for i in range(20):
     message = f"task {i}"
     socket.send_string(message)
     print(f"Sent: {message}")
-    time.sleep(random.uniform(0.1, 1))
+    # time.sleep(random.uniform(0.1, 1))

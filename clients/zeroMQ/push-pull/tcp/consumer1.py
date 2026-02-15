@@ -10,4 +10,4 @@ socket.connect("tcp://localhost:49152")
 while True:
     message = socket.recv_string()
     print(f"Consumer1  is processing: {message}")
-    time.sleep(random.uniform(1, 2))
+    time.sleep(random.uniform(10,11))

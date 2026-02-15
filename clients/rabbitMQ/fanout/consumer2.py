@@ -9,7 +9,6 @@ def process_event(ch, method, properties, body):
 connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost", port=5672))
 channel = connection.channel()
 
-channel.exchange_declare(exchange='order_events_fanout', exchange_type='fanout', durable=True)
 
 channel.queue_declare(queue='email_notifications', durable=True)
 

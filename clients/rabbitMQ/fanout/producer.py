@@ -7,7 +7,7 @@ channel = connection.channel()
 
 channel.exchange_declare(exchange='order_events_fanout', exchange_type='fanout', durable=True)
 
-for i in range(1, 20):
+for i in range(1, 11):
     message = f"Order number {i} created."
     channel.basic_publish(
         exchange='order_events_fanout',
